@@ -9,8 +9,9 @@ import Rodape from "./components/Rodape";
 function App() {
   return (
     <div className="bg-fundo min-h-screen text-slate-800 font-sans antialiased">
+      <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-white focus:p-4 focus:z-50 focus:border focus:text-destaque"> Pular para o conteúdo </a>
       <Cabecalho />
-      <main>
+      <main id="conteudo">
         <Hero />
         <Sobre />
         <Programacao />
@@ -21,4 +22,5 @@ function App() {
     </div>
   )
 }
+
 export default App;

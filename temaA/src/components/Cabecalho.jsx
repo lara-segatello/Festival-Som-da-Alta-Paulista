@@ -1,15 +1,15 @@
-import { useState } from 'react' 
+import { useState } from 'react'
 import { evento } from '../data/evento'
 
 function Cabecalho() {
- 
+
   const [menuAberto, setMenuAberto] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 bg-primaria text-white shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="w-full md:w-auto flex items-center justify-between">
-          
+
           <span className="font-extrabold text-xl tracking-tight text-white">
             {evento.nome}
           </span>
@@ -21,8 +21,8 @@ function Cabecalho() {
             {menuAberto ? 'Fechar X' : 'Menu ☰'}
           </button>
         </div>
-        
-       
+
+
         <nav className={`${menuAberto ? 'block' : 'hidden'} md:block w-full md:w-auto`}>
           <ul className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6 text-sm font-semibold text-white/90 pt-2 md:pt-0">
             <li className="w-full md:w-auto text-center">

@@ -2,11 +2,17 @@
 
 @theme {
 --color-primaria: #0d9488;
---color-destaque: #ec4899;
+--color-destaque: #b81d6c; 
 --color-fundo: #f0fdfa;
 }
 
-html {
-  /* Faz a página deslizar suavemente ao clicar nos links do menu */
-  scroll-behavior: smooth;
+:focus-visible {
+  outline: 3px solid var(--color-destaque);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto; /* Desativa rolagem suave se o usuário preferir menos movimento */
+  }
 }

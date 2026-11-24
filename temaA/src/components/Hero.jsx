@@ -1,4 +1,5 @@
 import { evento } from '../data/evento';
+import BotaoLembrete from "./BotaoLembrete";
 
 function Hero() {
     return (
@@ -22,6 +23,7 @@ function Hero() {
                 >
                     Garantir Ingresso
                 </a>
+                <BotaoLembrete/>
             </div>
         </section>
     )

@@ -1,141 +1,120 @@
-import { useState } from 'react';
+import { Check, ArrowUpRight, Bell } from 'lucide-react';
 import { evento } from '../data/evento';
 
-function Inscricao() {
-    const [nome, setNome] = useState('')
-    const [email, setEmail] = useState('')
-    const [ingressoSelecionado, setIngressoSelecionado] = useState(evento.ingressos[0])
-    const [quantidade, setQuantidade] = useState(1)
-    const [erroNome, setErroNome] = useState('')
-    const [enviado, setEnviado] = useState(false)
+export default function Inscricao({ onAbrirModal }) {
+  return (
+    <section
+      id="ingressos"
+      className="bg-[#F4F1EA] text-[#111111] border-b border-[#111111] scroll-mt-16"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+        {/* Cabeçalho */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-10 border-b border-[#111111] mb-10">
+          <div>
+            <span className="font-mono text-xs uppercase tracking-widest text-[#E63946] font-semibold block mb-3">
+              04 / Ingressos & Inscrição
+            </span>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl uppercase leading-[0.95] tracking-tight">
+              Garanta Seu Acesso
+            </h2>
+          </div>
 
-    function enviar(e) {
-        e.preventDefault()
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <p className="font-mono text-xs text-[#111111]/75 max-w-xs">
+              Renda dos ingressos solidários revertida integralmente ao projeto de música da escola municipal.
+            </p>
+            <button
+              type="button"
+              onClick={() => onAbrirModal('lembrete')}
+              className="inline-flex items-center gap-2 border border-[#111111] px-4 py-3 font-mono text-xs font-semibold uppercase tracking-wider hover:bg-[#111111] hover:text-[#F4F1EA] transition-colors duration-150 cursor-pointer shrink-0"
+            >
+              <Bell className="w-4 h-4" aria-hidden="true" />
+              Me lembre do evento
+            </button>
+          </div>
+        </div>
 
-
-        if (nome.trim().length < 3) {
-            setErroNome('O nome precisa ter pelo menos 3 letras.')
-            setEnviado(false)
-            return
-        }
-
-        setErroNome('')
-        setEnviado(true)
-    }
-
-
-    const precoUnitario = parseFloat(ingressoSelecionado.valor.replace('R$', '').trim())
-    const valorTotalCalculado = precoUnitario * quantidade
-
-    if (enviado) {
-        return (
-            <section id="inscricao" className="bg-purple-900 text-white py-20 px-4 text-center scroll-mt-20">
-                <div className="max-w-md mx-auto bg-primaria p-8 rounded-2xl shadow-xl border border-purple-400" role="status">
-                    <span className="text-4xl mb-4 block">🎉</span>
-                    <h2 className="text-2xl font-bold mb-4">Inscrição Confirmada!</h2>
-                    <p className="text-purple-100 leading-relaxed">
-                        Pronto, <strong>{nome}</strong>! Seu lugar no festival foi reservado.
-                    </p>
-                    <div className="mt-6 p-4 bg-purple-950/50 rounded-xl inline-block w-full text-left space-y-2">
-                        <div>
-                            <p className="text-xs uppercase text-purple-300 font-bold tracking-wider mb-0.5">Ingresso Reservado</p>
-                            <p className="font-semibold text-white">{ingressoSelecionado.tipo} ({quantidade}x)</p>
-                        </div>
-
-                        <div className="pt-2 border-t border-purple-700/50 flex justify-between items-center">
-                            <span className="text-xs uppercase text-purple-300 font-bold tracking-wider">Total do Pedido</span>
-                            <span className="font-extrabold text-xl text-destaque">R$ {valorTotalCalculado.toFixed(2)}</span>
-                        </div>
-                        <p className="text-xs text-purple-300 pt-1">Enviamos os detalhes do seu passaporte para: <strong>{email}</strong>.</p>
-                    </div>
+        {/* Cards Comparativos */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 border border-[#111111] divide-y lg:divide-y-0 lg:divide-x divide-[#111111]">
+          {evento.ingressos.map((ingresso) => (
+            <article
+              key={ingresso.id}
+              className={`p-6 sm:p-8 flex flex-col justify-between gap-8 ${
+                ingresso.destaque ? 'bg-[#111111] text-[#F4F1EA]' : 'bg-[#F4F1EA] text-[#111111]'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-6">
+                  <span
+                    className={`font-mono text-[11px] uppercase tracking-widest px-2.5 py-1 border ${
+                      ingresso.destaque
+                        ? 'border-[#E63946] text-[#E63946]'
+                        : 'border-[#111111] text-[#111111]'
+                    }`}
+                  >
+                    {ingresso.lote}
+                  </span>
+                  {ingresso.destaque && (
+                    <span className="font-mono text-[11px] uppercase tracking-widest bg-[#E63946] text-[#F4F1EA] px-2.5 py-1 font-bold">
+                      Mais Escolhido
+                    </span>
+                  )}
                 </div>
-            </section>
-        )
-    }
 
-    return (
-        <section id="inscricao" className="bg-purple-900 text-white py-16 px-4 scroll-mt-20">
-            <div className="max-w-md mx-auto">
-                <h2 className="text-3xl font-bold text-center mb-2">Garanta o seu lugar</h2>
-                <p className="text-purple-200 text-center text-sm mb-8">Preencha os dados abaixo para reservar sua entrada.</p>
+                <h3 className="font-display text-3xl uppercase tracking-tight mb-2">
+                  {ingresso.tipo}
+                </h3>
 
-                <form onSubmit={enviar} className="space-y-6 bg-primaria p-8 rounded-2xl shadow-xl border border-purple-500/30">
-                    <div>
-                        <label className="block text-sm font-semibold mb-2">
-                            Nome Completo
-                            <input
-                                type="text"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
-                                className="mt-1 w-full bg-purple-950 text-white placeholder-purple-400 rounded-xl px-4 py-3 border border-purple-600 focus:outline-none focus:border-destaque transition-colors text-base"
-                                placeholder="Seu nome completo"
-                            />
-                        </label>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="font-display text-5xl sm:text-6xl leading-none">
+                    {ingresso.valor}
+                  </span>
+                  <span
+                    className={`font-mono text-xs uppercase ${
+                      ingresso.destaque ? 'text-[#9E9A90]' : 'text-[#111111]/60'
+                    }`}
+                  >
+                    / por pessoa
+                  </span>
+                </div>
 
-                        {erroNome && <p className="text-orange-400 text-xs font-bold mt-1.5">⚠️ {erroNome}</p>}
-                    </div>
+                <p
+                  className={`text-sm leading-relaxed mb-6 ${
+                    ingresso.destaque ? 'text-[#F4F1EA]/80' : 'text-[#111111]/80'
+                  }`}
+                >
+                  {ingresso.descricao}
+                </p>
 
-                    <div>
-                        <label className="block text-sm font-semibold mb-2">
-                            E-mail
-                            <input
-                                type="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="mt-1 w-full bg-purple-950 text-white placeholder-purple-400 rounded-xl px-4 py-3 border border-purple-600 focus:outline-none focus:border-destaque transition-colors text-base"
-                                placeholder="seu.email@exemplo.com"
-                            />
-                        </label>
-                    </div>
+                <ul className="space-y-3 border-t pt-5 border-current/15">
+                  {ingresso.beneficios.map((beneficio) => (
+                    <li key={beneficio} className="flex items-start gap-2.5 text-sm">
+                      <Check
+                        className="w-4 h-4 text-[#E63946] shrink-0 mt-0.5"
+                        aria-hidden="true"
+                      />
+                      <span>{beneficio}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                    <div className="grid grid-cols-3 gap-4">
-
-                        <div className="col-span-2">
-                            <label className="block text-sm font-semibold mb-2">
-                                Tipo de Ingresso
-                                <select
-                                    value={ingressoSelecionado.tipo}
-                                    onChange={(e) => {
-                                        const objetoIngresso = evento.ingressos.find(ing => ing.tipo === e.target.value);
-                                        setIngressoSelecionado(objetoIngresso);
-                                    }}
-                                    className="mt-1 w-full bg-purple-950 text-white rounded-xl px-4 py-3 border border-purple-600 focus:outline-none focus:border-destaque transition-colors text-base cursor-pointer"
-                                >
-                                    {evento.ingressos.map((ing) => (
-                                        <option key={ing.tipo} value={ing.tipo}>
-                                            {ing.tipo} — {ing.valor}
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
-                        </div>
-
-
-                        <div className="col-span-1">
-                            <label className="block text-sm font-semibold mb-2">
-                                Qtd.
-                                <input
-                                    type="number"
-                                    min="1"
-                                    required
-                                    value={quantidade}
-                                    onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value) || 1))}
-                                    className="mt-1 w-full bg-purple-950 text-white rounded-xl px-3 py-3 border border-purple-600 focus:outline-none focus:border-destaque transition-colors text-base font-medium text-center"
-                                />
-                            </label>
-                        </div>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="w-full bg-destaque hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-md transition-all active:scale-[0.98] min-h-[44px] cursor-pointer">
-                        Realizar Inscrição
-                    </button>
-                </form>
-            </div>
-        </section>
-    )
+              <button
+                type="button"
+                onClick={() => onAbrirModal('ingresso', ingresso.id)}
+                className={`w-full inline-flex items-center justify-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider px-6 py-4 border transition-colors duration-150 cursor-pointer ${
+                  ingresso.destaque
+                    ? 'bg-[#E63946] text-[#F4F1EA] border-[#E63946] hover:bg-[#F4F1EA] hover:text-[#111111] hover:border-[#F4F1EA]'
+                    : 'bg-[#111111] text-[#F4F1EA] border-[#111111] hover:bg-[#E63946] hover:border-[#E63946]'
+                }`}
+              >
+                Garantir Ingresso
+                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+              </button>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
-export default Inscricao;
-
